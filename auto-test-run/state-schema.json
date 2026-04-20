@@ -1,0 +1,226 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Auto-Test-Run State Schema (Phase 3)",
+  "description": "Schema extensions for auto-test-run (Phase 3). Extends Phase 1/2 test-spec-{controller}.json format.",
+  "version": "3.0",
+  "type": "object",
+
+  "definitions": {
+
+    "phaseEnum": {
+      "type": "string",
+      "enum": ["phase1_completed", "phase2_completed", "phase3_in_progress", "phase3_completed", "phase3_failed"],
+      "description": "Current phase status"
+    },
+
+    "testStatusEnum": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "SKIP"],
+      "description": "Test result status"
+    },
+
+    "fixStatusEnum": {
+      "type": "string",
+      "enum": ["applied", "skipped", "failed"],
+      "description": "Status of auto-fix attempt"
+    },
+
+    "testResultDetail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["testCaseId", "endpoint", "method", "status"],
+      "properties": {
+        "testCaseId": {
+          "type": "string",
+          "description": "Test case ID (e.g., TC001)"
+        },
+        "endpoint": {
+          "type": "string",
+          "description": "HTTP endpoint path (e.g., /spmi/capacity/bill/lockBatch)"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["POST", "GET", "PUT", "DELETE", "PATCH"],
+          "description": "HTTP method for this endpoint"
+        },
+        "status": {
+          "$ref": "#/definitions/testStatusEnum"
+        },
+        "httpStatus": {
+          "type": ["integer", "null"],
+          "description": "HTTP status code returned"
+        },
+        "responseTimeMs": {
+          "type": ["integer", "null"],
+          "description": "Response time in milliseconds"
+        },
+        "errorMessage": {
+          "type": ["string", "null"],
+          "description": "Error message if test failed"
+        },
+        "fixApplied": {
+          "type": "boolean",
+          "description": "Whether an auto-fix was applied for this test"
+        }
+      }
+    },
+
+    "testResultsSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of test cases"
+        },
+        "passed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of passed tests"
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of failed tests"
+        },
+        "skipped": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of skipped tests"
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total test execution duration in milliseconds"
+        }
+      }
+    },
+
+    "testResultsObject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["timestamp", "summary", "details"],
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO8601 timestamp when tests were executed"
+        },
+        "summary": {
+          "$ref": "#/definitions/testResultsSummary"
+        },
+        "details": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/testResultDetail" },
+          "description": "Detailed results for each test case"
+        }
+      }
+    },
+
+    "fixDetail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["testCaseId", "file", "lineNumber", "issue", "diffLines", "status"],
+      "properties": {
+        "testCaseId": {
+          "type": "string",
+          "description": "Test case this fix is associated with"
+        },
+        "file": {
+          "type": "string",
+          "description": "Absolute path to the file being fixed"
+        },
+        "lineNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Line number where fix was applied"
+        },
+        "issue": {
+          "type": "string",
+          "description": "Description of the issue being fixed"
+        },
+        "diffLines": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Number of lines changed in the diff (max 5 for auto-fix)"
+        },
+        "before": {
+          "type": ["string", "null"],
+          "description": "Original code before fix"
+        },
+        "after": {
+          "type": ["string", "null"],
+          "description": "Fixed code after applying patch"
+        },
+        "status": {
+          "$ref": "#/definitions/fixStatusEnum"
+        },
+        "testResultAfterFix": {
+          "type": ["string", "null"],
+          "description": "Test result after fix was applied (PASS/FAIL/null)"
+        }
+      }
+    },
+
+    "fixesArray": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/fixDetail" },
+      "description": "Array of auto-fix attempts and results"
+    }
+
+  },
+
+  "properties": {
+
+    "version": {
+      "type": "string",
+      "const": "3.0",
+      "description": "Schema version, '3.0' for Phase 3"
+    },
+
+    "project": {
+      "type": "string",
+      "const": "yl-jms-spmibill-capacity",
+      "description": "Project identifier"
+    },
+
+    "controller": {
+      "type": "string",
+      "description": "Controller class name (e.g., SpmiCapacityBillController)"
+    },
+
+    "phase": {
+      "$ref": "#/definitions/phaseEnum"
+    },
+
+    "testResults": {
+      "$ref": "#/definitions/testResultsObject"
+    },
+
+    "fixes": {
+      "$ref": "#/definitions/fixesArray"
+    },
+
+    "testReportPath": {
+      "type": ["string", "null"],
+      "description": "Path to the generated test report markdown file"
+    },
+
+    "fixReportPath": {
+      "type": ["string", "null"],
+      "description": "Path to the generated fix log markdown file"
+    }
+
+  },
+
+  "patternProperties": {
+    "^testCases$": {
+      "type": "array",
+      "description": "Phase 1/2 test cases - each test case extended with Phase 3 fields"
+    }
+  },
+
+  "additionalProperties": true
+}

@@ -1,0 +1,267 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Auto-Test-Data State Schema",
+  "description": "Schema extending Phase 1 test-spec-{controller}.json for Phase 2 auto-test-data. Adds Entity identification and INSERT execution fields.",
+  "version": "2.0",
+  "type": "object",
+  "additionalProperties": true,
+
+  "definitions": {
+
+    "phaseEnum": {
+      "type": "string",
+      "enum": ["phase1_completed", "phase2_in_progress", "phase2_completed", "phase2_failed"],
+      "description": "Current phase status"
+    },
+
+    "entityIdentificationMethodEnum": {
+      "type": "string",
+      "enum": ["annotation", "naming_inference", "database_reverse"],
+      "description": "Method used to identify Entity class from DTO"
+    },
+
+    "insertStatusEnum": {
+      "type": "string",
+      "enum": ["pending", "data_inserted", "failed"],
+      "description": "Status of INSERT execution for this test case"
+    },
+
+    "entityClass": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "path", "tableName", "identificationMethod", "confidence"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Entity class simple name (e.g., SpmiCapacityBill)"
+        },
+        "path": {
+          "type": "string",
+          "description": "Absolute path to the Entity Java file"
+        },
+        "tableName": {
+          "type": "string",
+          "description": "Database table name (e.g., spmi_capacity_bill)"
+        },
+        "identificationMethod": {
+          "$ref": "#/definitions/entityIdentificationMethodEnum"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Confidence score for Entity identification (0.0 to 1.0)"
+        }
+      }
+    },
+
+    "insertResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Whether INSERT executed successfully"
+        },
+        "error": {
+          "type": ["string", "null"],
+          "description": "Error message if INSERT failed"
+        },
+        "rowsAffected": {
+          "type": "integer",
+          "description": "Number of rows affected by INSERT"
+        }
+      }
+    },
+
+    "inputParameterField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type", "value"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Field name (e.g., id, billNo)"
+        },
+        "type": {
+          "type": "string",
+          "description": "Java type (e.g., Long, String, Integer)"
+        },
+        "value": {
+          "type": "string",
+          "description": "Test value for this field"
+        },
+        "description": {
+          "type": ["string", "null"],
+          "description": "Optional field description"
+        }
+      }
+    },
+
+    "inputParameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dtoClass", "fields"],
+      "properties": {
+        "dtoClass": {
+          "type": "string",
+          "description": "DTO class simple name (e.g., SpmiCapacityBillIdDTO)"
+        },
+        "fields": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/inputParameterField" },
+          "description": "List of input parameter fields"
+        }
+      }
+    },
+
+    "expectedResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "integer",
+          "description": "Expected HTTP response code"
+        },
+        "message": {
+          "type": "string",
+          "description": "Expected response message"
+        },
+        "data": {
+          "type": ["boolean", "integer", "string", "object", "array", "null"],
+          "description": "Expected response data"
+        }
+      }
+    },
+
+    "dtoClass": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "path"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "DTO class simple name (e.g., BaseQuery)"
+        },
+        "path": {
+          "type": "string",
+          "description": "Absolute path to the DTO Java file"
+        }
+      }
+    },
+
+    "testCaseStatusEnum": {
+      "type": "string",
+      "enum": ["pending", "data_inserted", "completed"],
+      "description": "Status of this test case: pending (Phase 1 done, no data) -> data_inserted (Phase 2 done) -> completed (Phase 3 done)"
+    },
+
+    "testCase": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Test case ID (e.g., TC001)"
+        },
+        "method": {
+          "type": "string",
+          "description": "Method name (e.g., lockBatch)"
+        },
+        "methodSignature": {
+          "type": ["string", "null"],
+          "description": "Full method signature"
+        },
+        "功能": {
+          "type": ["string", "null"],
+          "description": "Functional description in Chinese"
+        },
+        "数据边界": {
+          "type": ["string", "null"],
+          "description": "Data boundary condition in Chinese"
+        },
+        "输入参数": {
+          "$ref": "#/definitions/inputParameters"
+        },
+        "预期返回结果": {
+          "$ref": "#/definitions/expectedResult"
+        },
+        "实际结果": {
+          "type": ["string", "null"],
+          "description": "Phase 3: Actual result after test execution"
+        },
+        "原因": {
+          "type": ["string", "null"],
+          "description": "Phase 3: Reason if actual result doesn't match expected"
+        },
+        "dtoClasses": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/dtoClass" },
+          "description": "List of DTO classes used by this method"
+        },
+        "feignMocks": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "FeignClient names to be mocked"
+        },
+        "status": {
+          "$ref": "#/definitions/testCaseStatusEnum"
+        },
+        "entityClass": {
+          "$ref": "#/definitions/entityClass"
+        },
+        "insertTemplate": {
+          "type": ["string", "null"],
+          "description": "INSERT SQL template with #{varName} placeholders"
+        },
+        "insertStatus": {
+          "$ref": "#/definitions/insertStatusEnum"
+        },
+        "insertResult": {
+          "$ref": "#/definitions/insertResult"
+        }
+      }
+    }
+
+  },
+
+  "properties": {
+
+    "version": {
+      "type": "string",
+      "description": "Schema version"
+    },
+
+    "project": {
+      "type": "string",
+      "description": "Project identifier"
+    },
+
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO8601 timestamp when state was first created"
+    },
+
+    "controller": {
+      "type": "string",
+      "description": "Controller class simple name"
+    },
+
+    "controllerPath": {
+      "type": "string",
+      "description": "Absolute path to the Controller.java file"
+    },
+
+    "phase": {
+      "$ref": "#/definitions/phaseEnum"
+    },
+
+    "testCases": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/testCase" },
+      "description": "Array of test cases"
+    }
+
+  }
+}

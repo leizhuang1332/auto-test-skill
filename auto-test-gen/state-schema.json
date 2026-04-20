@@ -1,0 +1,244 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Auto-Test-Gen JSON Test Spec Schema",
+  "description": "Schema for test-spec-{controller}.json - source of truth for Phase 2 (data insertion) and Phase 3 (test execution)",
+  "version": "1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "project", "createdAt", "controller", "controllerPath", "phase", "requirements", "testCases"],
+
+  "definitions": {
+
+    "phaseEnum": {
+      "type": "string",
+      "enum": ["phase1_in_progress", "phase1_completed", "phase2_in_progress", "phase2_completed", "phase3_in_progress", "phase3_completed"],
+      "description": "Current phase status - tracks which phase last modified this spec"
+    },
+
+    "testCaseStatusEnum": {
+      "type": "string",
+      "enum": ["pending", "data_inserted", "completed"],
+      "description": "Test case execution status: pending (not yet data-inserted), data_inserted (Phase 2 done), completed (Phase 3 done)"
+    },
+
+    "priorityEnum": {
+      "type": "string",
+      "enum": ["blocking", "nice-to-have"],
+      "description": "Test case priority: blocking (P0, must pass), nice-to-have (P1, good coverage)"
+    },
+
+    "requirementsObject": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Requirements gathered via interactive Q&A before test spec generation",
+      "required": ["businessContext", "dataBoundaries", "externalDependencies", "commonBugs", "priority"],
+      "properties": {
+        "businessContext": {
+          "type": "string",
+          "description": "Q1: 业务背景 — 这个接口的业务目的是什么？谁会用？"
+        },
+        "dataBoundaries": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Q2: 数据边界 — 需要覆盖哪些边界情况？（空数据、极限值、特殊状态）"
+        },
+        "externalDependencies": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Q3: 外部依赖 — 调用了哪些外部服务/Feign？"
+        },
+        "commonBugs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Q4: 常见错误 — 有没有上线后出过的 bug？"
+        },
+        "priority": {
+          "type": "object",
+          "additionalProperties": { "type": "string", "enum": ["blocking", "nice-to-have"] },
+          "description": "Q5: 优先级 — 哪些用例必须覆盖？(TC ID -> priority mapping)"
+        }
+      }
+    },
+
+    "inputField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type", "value", "description"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Field name (e.g., id, name, status)"
+        },
+        "type": {
+          "type": "string",
+          "description": "Java type (e.g., Long, String, Integer, LocalDateTime)"
+        },
+        "value": {
+          "type": "string",
+          "description": "Example/test value for this field"
+        },
+        "description": {
+          "type": "string",
+          "description": "Chinese description of this field's purpose"
+        }
+      }
+    },
+
+    "inputParams": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dtoClass", "fields"],
+      "properties": {
+        "dtoClass": {
+          "type": "string",
+          "description": "DTO class name (e.g., SpmiCapacityBillIdDTO)"
+        },
+        "fields": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/inputField" },
+          "description": "List of input fields with types and test values"
+        }
+      }
+    },
+
+    "expectedResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message", "data"],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "description": "HTTP status or business code (e.g., 200)"
+        },
+        "message": {
+          "type": "string",
+          "description": "Response message (e.g., 'success', '参数错误')"
+        },
+        "data": {
+          "type": "any",
+          "description": "Expected return value (can be boolean, object, array, null)"
+        }
+      }
+    },
+
+    "dtoClassRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "path"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "DTO class simple name (e.g., BaseQuery)"
+        },
+        "path": {
+          "type": "string",
+          "description": "Absolute path to the DTO Java file"
+        }
+      }
+    },
+
+    "testCase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "method", "methodSignature", "功能", "数据边界", "输入参数", "预期返回结果", "实际结果", "原因", "dtoClasses", "feignMocks", "status"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^TC\\d{3}$",
+          "description": "Test case ID (e.g., TC001, TC002)"
+        },
+        "method": {
+          "type": "string",
+          "description": "Method name (e.g., lockBatch)"
+        },
+        "methodSignature": {
+          "type": "string",
+          "description": "Full method signature (e.g., Result<Boolean> lockBatch(BaseQuery<List<SpmiCapacityBillIdDTO>>))"
+        },
+        "功能": {
+          "type": "string",
+          "description": "Chinese description of what this method does"
+        },
+        "数据边界": {
+          "type": "string",
+          "description": "Chinese description of data boundary conditions being tested"
+        },
+        "输入参数": {
+          "$ref": "#/definitions/inputParams"
+        },
+        "预期返回结果": {
+          "$ref": "#/definitions/expectedResult"
+        },
+        "实际结果": {
+          "type": ["string", "null"],
+          "enum": ["PASS", "FAIL", null],
+          "description": "Actual execution result: null (not run), 'PASS', or 'FAIL'"
+        },
+        "原因": {
+          "type": ["string", "null"],
+          "description": "Explanation if actual result is FAIL"
+        },
+        "dtoClasses": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/dtoClassRef" },
+          "description": "List of DTO classes referenced by this test case"
+        },
+        "feignMocks": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "FeignClient names to be mocked during test execution"
+        },
+        "status": {
+          "$ref": "#/definitions/testCaseStatusEnum"
+        }
+      }
+    }
+
+  },
+
+  "properties": {
+
+    "version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Schema version, always '1.0'"
+    },
+
+    "project": {
+      "type": "string",
+      "const": "yl-jms-spmibill-capacity",
+      "description": "Project identifier"
+    },
+
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO8601 timestamp when test spec was first created"
+    },
+
+    "controller": {
+      "type": "string",
+      "description": "Controller class simple name (e.g., SpmiCapacityBillController)"
+    },
+
+    "controllerPath": {
+      "type": "string",
+      "description": "Absolute path to the Controller.java file"
+    },
+
+    "phase": {
+      "$ref": "#/definitions/phaseEnum"
+    },
+
+    "requirements": {
+      "$ref": "#/definitions/requirementsObject"
+    },
+
+    "testCases": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/testCase" },
+      "description": "Array of test cases with input parameters and expected results"
+    }
+
+  }
+}
