@@ -14,7 +14,7 @@ Java 开发工程师在 Spring Boot + Maven 项目中自测耗时长。当前痛
 ## Install
 
 ```
-clone this repo to local
+# clone this repo to local
 
 cd auto-test
 
