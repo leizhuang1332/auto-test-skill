@@ -1,0 +1,53 @@
+{
+  "agents": [
+    {
+      "agent_id": "a1ba8674f1af875e3",
+      "agent_type": "Explore",
+      "started_at": "2026-04-22T06:10:46.036Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-04-22T06:14:31.800Z",
+      "duration_ms": 225764
+    },
+    {
+      "agent_id": "ad9d9ba789eee6aea",
+      "agent_type": "gsd-codebase-mapper",
+      "started_at": "2026-04-22T06:15:19.379Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-04-22T06:21:32.782Z",
+      "duration_ms": 373403
+    },
+    {
+      "agent_id": "acfec868693af597d",
+      "agent_type": "gsd-codebase-mapper",
+      "started_at": "2026-04-22T06:15:20.011Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-04-22T06:23:13.542Z",
+      "duration_ms": 473531
+    },
+    {
+      "agent_id": "aeb45a3bec23152b8",
+      "agent_type": "gsd-codebase-mapper",
+      "started_at": "2026-04-22T06:15:20.073Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-04-22T06:22:30.065Z",
+      "duration_ms": 429992
+    },
+    {
+      "agent_id": "a1a04644735363c03",
+      "agent_type": "gsd-codebase-mapper",
+      "started_at": "2026-04-22T06:15:20.086Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-04-22T06:22:04.865Z",
+      "duration_ms": 404779
+    }
+  ],
+  "total_spawned": 3,
+  "total_completed": 5,
+  "total_failed": 0,
+  "last_updated": "2026-04-22T06:23:13.646Z"
+}

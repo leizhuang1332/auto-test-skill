@@ -1,0 +1,294 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1776838093592,
+  "projectRoot": "d:\\TraeProject\\auto-test-skill",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "auto-test": {
+      "path": "auto-test",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1776838092304,
+      "keyFiles": [
+        "auto-test.sh",
+        "SKILL.md"
+      ]
+    },
+    "auto-test-data": {
+      "path": "auto-test-data",
+      "purpose": null,
+      "fileCount": 5,
+      "lastAccessed": 1776838092305,
+      "keyFiles": [
+        "execute-insert.sh",
+        "gen-insert.sh",
+        "identify-entity.sh",
+        "SKILL.md",
+        "state-schema.json"
+      ]
+    },
+    "auto-test-gen": {
+      "path": "auto-test-gen",
+      "purpose": null,
+      "fileCount": 9,
+      "lastAccessed": 1776838092305,
+      "keyFiles": [
+        "extract-dto.sh",
+        "extract-feign.sh",
+        "extract-methods.sh",
+        "gen-test-class.sh",
+        "gen-test-spec.sh"
+      ]
+    },
+    "auto-test-run": {
+      "path": "auto-test-run",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1776838092306,
+      "keyFiles": [
+        "auto-fix.sh",
+        "run-test.sh",
+        "SKILL.md",
+        "state-schema.json"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "",
+      "accessCount": 8,
+      "lastAccessed": 1776838800591,
+      "type": "directory"
+    },
+    {
+      "path": "README.md",
+      "accessCount": 6,
+      "lastAccessed": 1776838561101,
+      "type": "file"
+    },
+    {
+      "path": "auto-test\\SKILL.md",
+      "accessCount": 5,
+      "lastAccessed": 1776838556738,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-data\\SKILL.md",
+      "accessCount": 5,
+      "lastAccessed": 1776838558099,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-gen\\SKILL.md",
+      "accessCount": 5,
+      "lastAccessed": 1776838558130,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-run\\SKILL.md",
+      "accessCount": 5,
+      "lastAccessed": 1776838560840,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-gen\\requirements-clarification.sh",
+      "accessCount": 4,
+      "lastAccessed": 1776838578551,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-gen\\extract-dto.sh",
+      "accessCount": 4,
+      "lastAccessed": 1776838578627,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-gen\\parse-input.sh",
+      "accessCount": 4,
+      "lastAccessed": 1776838578796,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-gen\\extract-methods.sh",
+      "accessCount": 4,
+      "lastAccessed": 1776838578862,
+      "type": "file"
+    },
+    {
+      "path": "auto-test\\auto-test.sh",
+      "accessCount": 4,
+      "lastAccessed": 1776838578909,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-gen\\extract-feign.sh",
+      "accessCount": 4,
+      "lastAccessed": 1776838578982,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-gen\\state-schema.json",
+      "accessCount": 4,
+      "lastAccessed": 1776838579037,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-gen\\gen-test-spec.sh",
+      "accessCount": 4,
+      "lastAccessed": 1776838579170,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-data\\gen-insert.sh",
+      "accessCount": 4,
+      "lastAccessed": 1776838597440,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-data\\state-schema.json",
+      "accessCount": 4,
+      "lastAccessed": 1776838597514,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-data\\identify-entity.sh",
+      "accessCount": 4,
+      "lastAccessed": 1776838598077,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-run\\run-test.sh",
+      "accessCount": 4,
+      "lastAccessed": 1776838598118,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-run\\state-schema.json",
+      "accessCount": 4,
+      "lastAccessed": 1776838598133,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-run\\auto-fix.sh",
+      "accessCount": 4,
+      "lastAccessed": 1776838598262,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-data\\execute-insert.sh",
+      "accessCount": 4,
+      "lastAccessed": 1776838598398,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-gen\\gen-test-class.sh",
+      "accessCount": 4,
+      "lastAccessed": 1776838682053,
+      "type": "file"
+    },
+    {
+      "path": ".planning\\codebase",
+      "accessCount": 2,
+      "lastAccessed": 1776838914734,
+      "type": "directory"
+    },
+    {
+      "path": "AGENTS.md",
+      "accessCount": 1,
+      "lastAccessed": 1776838552386,
+      "type": "file"
+    },
+    {
+      "path": ".planning\\codebase\\ARCHITECTURE.md",
+      "accessCount": 1,
+      "lastAccessed": 1776838740799,
+      "type": "file"
+    },
+    {
+      "path": "auto-test\\AGENTS.md",
+      "accessCount": 1,
+      "lastAccessed": 1776838741891,
+      "type": "file"
+    },
+    {
+      "path": ".planning\\codebase\\CONVENTIONS.md",
+      "accessCount": 1,
+      "lastAccessed": 1776838741905,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-data\\AGENTS.md",
+      "accessCount": 1,
+      "lastAccessed": 1776838743077,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-gen\\AGENTS.md",
+      "accessCount": 1,
+      "lastAccessed": 1776838744386,
+      "type": "file"
+    },
+    {
+      "path": "auto-test-run\\AGENTS.md",
+      "accessCount": 1,
+      "lastAccessed": 1776838745639,
+      "type": "file"
+    },
+    {
+      "path": ".planning\\codebase\\STACK.md",
+      "accessCount": 1,
+      "lastAccessed": 1776838853118,
+      "type": "file"
+    },
+    {
+      "path": ".planning\\codebase\\INTEGRATIONS.md",
+      "accessCount": 1,
+      "lastAccessed": 1776838854445,
+      "type": "file"
+    },
+    {
+      "path": ".planning\\codebase\\STRUCTURE.md",
+      "accessCount": 1,
+      "lastAccessed": 1776838866944,
+      "type": "file"
+    },
+    {
+      "path": ".planning\\codebase\\TESTING.md",
+      "accessCount": 1,
+      "lastAccessed": 1776838884977,
+      "type": "file"
+    },
+    {
+      "path": ".planning\\codebase\\CONCERNS.md",
+      "accessCount": 1,
+      "lastAccessed": 1776838899627,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

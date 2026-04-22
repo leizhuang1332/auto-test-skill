@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd d:/TraeProject/auto-test-skill && git add .planning/codebase/ && git commit -m \\\"$(cat <<'EOF'\\nAdd codebase map: 7 structured analysis documents\\n\\nParallel mapper agents analyzed tech...",
+  "error": "Exit code 1\nThe following paths are ignored by one of your .gitignore files:\n.planning\nhint: Use -f if you really want to add them.\nhint: Turn this message off by running\nhint: \"git config advice.addIgnoredFile false\"",
+  "timestamp": "2026-04-22T06:23:54.708Z",
+  "retry_count": 1
+}
